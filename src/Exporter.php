@@ -76,8 +76,8 @@ abstract class Exporter
         header("Accept-Ranges: bytes");
         header("Expires: 0");
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Content-Disposition: must-revalidate, post-check=0, pre-check=0");
         header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        header("Content-Disposition: attachment; filename=\"{$this->getFilename()}.xlsx\"; filename*=utf-8''{$this->getFilename()}.xlsx");
         ob_start();
         $writer->save('php://output');
         return ob_get_clean();
