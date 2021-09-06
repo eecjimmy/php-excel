@@ -1,16 +1,15 @@
 <?php
 
-
 namespace eecjimmy\Excel;
 
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 /**
- * 从Excel表中导入数据
+ * trait ImportTrait
  * @package eecjimmy\Excel
  */
-abstract class Importer
+trait ImportTrait
 {
     /**
      * 需要导入的excel文件
