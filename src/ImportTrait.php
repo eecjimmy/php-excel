@@ -54,8 +54,6 @@ trait ImportTrait
                 $rowData[] = $v;
             }
 
-            if (empty($rowData)) break;
-
             if (!$this->saveRow($rowData, $row)) {
                 return false;
             }
