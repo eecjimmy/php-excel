@@ -39,7 +39,6 @@ trait ImportTrait
      */
     public function import(): int
     {
-        $success = 0;
         $excel = $this->getExcelFile();
         $reader = new Xlsx();
         $sheet = $reader->load($excel)->setActiveSheetIndex(0);
@@ -57,10 +56,12 @@ trait ImportTrait
 
             if (empty($rowData)) break;
 
-            $this->saveRow($rowData, $row) && $success++;
+            if (!$this->saveRow($rowData, $row)) {
+                return false;
+            }
         }
 
-        return $success;
+        return true;
     }
 
     /**
