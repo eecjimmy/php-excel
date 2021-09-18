@@ -5,6 +5,8 @@ namespace eecjimmy\Excel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 /**
  * Excel export trait
@@ -63,7 +65,8 @@ trait ExportTrait
                     $value = $v['value'] ?? '';
                     $color = $v['color'] ?? '';
                     if ($color) {
-                        $sheet->getStyle($c)->getFont()->getColor()->setRGB($color);
+                        $color = new Color($color);
+                        $sheet->getStyle($c)->getFill()->setFillType(Fill::FILL_SOLID)->setStartColor($color);
                     }
                 }
                 $sheet->setCellValue($c, $value);
