@@ -61,12 +61,22 @@ trait ExportTrait
             foreach ($row as $key => $value) {
                 $c = $sheet->getCellByColumnAndRow($key + 1, $current)->getCoordinate();
                 if (is_array($value)) {
-                    $v = $value;
-                    $value = $v['value'] ?? '';
-                    $color = $v['color'] ?? '';
-                    if ($color) {
-                        $color = new Color($color);
-                        $sheet->getStyle($c)->getFill()->setFillType(Fill::FILL_SOLID)->setStartColor($color);
+                    if (array_keys($value) !== range(0, count($value) - 1)) {
+                        $v = $value;
+                        $value = $v['value'] ?? '';
+                        $color = $v['color'] ?? '';
+                        if ($color) {
+                            $color = new Color($color);
+                            $sheet->getStyle($c)->getFill()->setFillType(Fill::FILL_SOLID)->setStartColor($color);
+                        }
+                    } elseif (count($value) === 2) {
+                        // $k => [$value, function(Cell $cell){
+                        //   // 支持自定义处理单元格格式
+                        // }]
+                        if (is_callable($value[1])) {
+                            call_user_func($value[1], $sheet->getCell($c));
+                        }
+                        $value = $value[0];
                     }
                 }
                 $sheet->setCellValue($c, $value);
